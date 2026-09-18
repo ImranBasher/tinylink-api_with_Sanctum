@@ -1,0 +1,107 @@
+{
+  "info": {
+    "name": "TinyLink API",
+    "description": "Import this collection, then register or log in. Copy data.token into the token collection variable before calling protected endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "token", "value": "" },
+    { "key": "url_id", "value": "1" },
+    { "key": "short_code", "value": "my-link" }
+  ],
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "noauth" },
+        "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"name\":\"Ada\",\"email\":\"ada@example.com\",\"password\":\"secret123\",\"password_confirmation\":\"secret123\"}" },
+        "url": "{{base_url}}/api/register"
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "noauth" },
+        "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\":\"ada@example.com\",\"password\":\"secret123\"}" },
+        "url": "{{base_url}}/api/login"
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{base_url}}/api/logout"
+      }
+    },
+    {
+      "name": "Current user",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{base_url}}/api/me"
+      }
+    },
+    {
+      "name": "Create short URL",
+      "request": {
+        "method": "POST",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Accept", "value": "application/json" }, { "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"url\":\"https://example.com/page\",\"custom_code\":\"my-link\"}" },
+        "url": "{{base_url}}/api/urls"
+      }
+    },
+    {
+      "name": "List URLs",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{base_url}}/api/urls?page=1&per_page=10"
+      }
+    },
+    {
+      "name": "URL details",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{base_url}}/api/urls/{{url_id}}"
+      }
+    },
+    {
+      "name": "Delete URL",
+      "request": {
+        "method": "DELETE",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{base_url}}/api/urls/{{url_id}}"
+      }
+    },
+    {
+      "name": "URL statistics",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{base_url}}/api/urls/{{url_id}}/stats"
+      }
+    },
+    {
+      "name": "Follow short URL",
+      "request": {
+        "method": "GET",
+        "auth": { "type": "noauth" },
+        "url": "{{base_url}}/{{short_code}}"
+      }
+    }
+  ]
+}
